@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.text import slugify
 # Create your models here.
 
 def image_book_upload(instance,file_name:str):
@@ -14,6 +14,7 @@ def image_author_upload(instance,file_name:str):
 class Category(models.Model):
 
     name = models.CharField(max_length=150)
+    slug = models.SlugField(unique=True,blank=True,null=True)
 
     
 
@@ -23,6 +24,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self,*args,**kwargs):
+        self.slug = slugify(self.name)
+        super(Category,self).save(*args, **kwargs)
 
 
 
@@ -40,7 +45,7 @@ class Book(models.Model):
         ('sold', 'sold'),
     ]
 
-
+    slug = models.SlugField(unique=True,blank=True,null=True)
     title = models.CharField(max_length=150)
     author = models.CharField(max_length=150)
     photo_book = models.ImageField(upload_to=image_book_upload,null=True,blank=True)
@@ -61,3 +66,7 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def save(self,*args,**kwargs):
+        self.slug = slugify(self.name)
+        super(Book,self).save(*args, **kwargs)
