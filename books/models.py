@@ -4,12 +4,12 @@ from django.utils.text import slugify
 
 def image_book_upload(instance,file_name:str):
     extension = file_name.split('.')[1]
-    return f'books\{instance.name}.{extension}'
+    return f'books\{instance.title}.{extension}'
 
 
 def image_author_upload(instance,file_name:str):
     extension = file_name.split('.')[1]
-    return f'author\{instance.name}.{extension}'
+    return f'author\{instance.author}.{extension}'
 
 class Category(models.Model):
 
@@ -45,8 +45,9 @@ class Book(models.Model):
         ('sold', 'sold'),
     ]
 
-    slug = models.SlugField(unique=True,blank=True,null=True)
+    
     title = models.CharField(max_length=150)
+    slug = models.SlugField(unique=True,blank=True,null=True)
     author = models.CharField(max_length=150)
     photo_book = models.ImageField(upload_to=image_book_upload,null=True,blank=True)
     photo_author = models.ImageField(upload_to=image_author_upload,null=True,blank=True)
@@ -68,5 +69,5 @@ class Book(models.Model):
         return self.title
     
     def save(self,*args,**kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.title)
         super(Book,self).save(*args, **kwargs)
