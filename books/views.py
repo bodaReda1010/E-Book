@@ -7,7 +7,7 @@ def home(request , price_sold = 0 , price_rental = 0 , category_slug = None):
     else:
         books = Book.objects.all().filter(active = True)
 
-        
+    books_count = Book.objects.all().count()
     categories = Category.objects.all()
     sold_books = Book.objects.filter(status = 'sold')
     rental_books = Book.objects.filter(status = 'rental')
@@ -25,6 +25,7 @@ def home(request , price_sold = 0 , price_rental = 0 , category_slug = None):
         'books' : books,
         'categories' : categories,
         'total':total,
+        'books_count':books_count,
 
     }
     return render(request , 'home/home.html' , context)
