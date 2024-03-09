@@ -109,7 +109,7 @@
                 <ul class="nav">
                   {% for cat in categories  %}
                   <li class="nav-item ">
-                    <a id="" class="nav-link bg-primary" href="#">{{cat}}</a>
+                    <a id="" class="nav-link bg-primary" href="{{cat.get_url}}">{{cat}}</a>
                   </li>
                   {% endfor %}
                 </ul>
